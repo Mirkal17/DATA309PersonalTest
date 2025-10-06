@@ -1,0 +1,42 @@
+import time
+import os
+from openai import OpenAI
+from dotenv import load_dotenv
+from tqdm import tqdm
+
+
+
+os.environ['OPENAI_API_KEY'] = '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'
+
+client = OpenAI()
+
+# class Categories:
+#     def Technical_Issue(self):
+
+
+CATEGORIES = ["Technical Issue", "Billing Problem", "Product Question", "Complaint", "Feature Request"]
+
+def classify_ticket(description):
+    """Classify a ticket using OpenAI GPT-3.5"""
+    try:
+        prompt = (
+            "You are a customer support classifier.\n"
+            f"Classify the following support ticket into one of the following categories:\n"
+            f"{', '.join(CATEGORIES)}.\n"
+            "Respond with ONLY the category name.\n\n"
+            f"Ticket: {description}"
+        )
+
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a helpful classification assistant."},
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=15,
+            temperature=0
+        )
+        result = response.choices[0].message.content.strip()
+        return result
+    except Exception as e:
+        return f"Error: {e}"
