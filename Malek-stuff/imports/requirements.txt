@@ -1,0 +1,11 @@
+pandas 
+openai 
+kagglehub
+flask
+numpy
+scikit-learn
+nltk
+joblib
+torch
+transformers
+nlpaug
